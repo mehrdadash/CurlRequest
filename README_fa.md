@@ -1,12 +1,12 @@
 # CurlRequest
 <div dir="rtl">
 کلاس ساده برای صدا زدن api در زبان php ( لطفا برای اطلاعات بیشتر به http://php.net/curl مراجعه کنید)
-</div>
+
 
 ## نصب
 
 Click the `download` link above or `git clone git://github.com/shuber/curl.git`
-
+</div>
 
 ## Usage
 
