@@ -19,6 +19,7 @@
 	require_once 'curl.php';
 	$curl = new Curl;
 ```
+
 <div dir="rtl">
 ### انجام یک درخواست
 
@@ -35,23 +36,29 @@
 	$response = $curl->put($url, $vars = array());    # initilize put request
 	$response = $curl->delete($url, $vars = array()); # initilize delete request
 ```
+
 <div dir="rtl">
 برای ارسال درخواست سفارشی میتوانید از متد `request` استفاده کنید:
 </div>
+
 ```
 	$response = $curl->request('YOUR_CUSTOM_REQUEST_TYPE', $url, $vars = array());
 ```
+
 <div dir="rtl">
 تمام متدهای درخواست ساخته شده مانند `put` و` get` به سادگی متد `request` را پوشش میدهند. به عنوان مثال، روش `post` به صورت زیر اجرا می شود:
 </div>
+
 ```
 	function post($url, $vars = array()) {
 	    return $this->request('POST', $url, $vars);
 	}
 ```
+
 <div dir="rtl">
 مثال:
 </div>
+
 ```
 	$response = $curl->get('domain.com?q=somedata');
 
@@ -60,6 +67,7 @@
 	
 	$response = $curl->post('test.com/posts', array('title' => 'sometitle', 'body' => 'something as body'));
 ```
+
 <div dir="rtl">
 تمام درخواستها آبجکت CurlResponse را به عنوان خروجی ذخیره میکنند:
 
@@ -71,15 +79,18 @@
 
 برای مثال:
 </div>
+
 ```
 	$response = $curl->get('google.com');
 	echo $response;  or   # هر دو مورد جواب میدهند
 	echo $response->body; # A string containing everything in the response will echo, except for the headers
 	print_r($response->headers); # An associative array containing the response headers
 ```
+
 <div dir="rtl">
 	مثال:	
 </div>
+
 ```
 	Array
 	(
@@ -93,14 +104,17 @@
 	    [Connection] => close
 	)
 ```
+
 <div dir="rtl">
 ### کوکی Sessions
 
 به صورت پیش فرض، کوکی ها در یک فایل به نام `lib / curl_cookie.txt` ذخیره می شوند. شما می توانید نام این فایل را از طریق تنظیم این متغیر تغییر دهید:
 </div>
+
 ```
 	$curl->cookie_file = 'some_other_filename';
 ```
+
 <div dir="rtl">
 این به شما اجازه می دهد یک session را در طول درخواست ها حفظ کنید.
 
@@ -109,38 +123,46 @@
 
 شما می توانید به راحتی referer یا user-agent را تنظیم کنید:
 </div>
+
 ```
 	$curl->referer = 'https://google.com';
 	$curl->user_agent = 'some user agent string';
 ```
+
 <div dir="rtl">
 ### تنظیم  هدر های سفارشی
 
 شما حتی می توانید این هدر ها را به صورت دستی تنظیم کنید:
 </div>
+
 ```
 	$curl->headers['Host'] = 12.345.678.90;
 	$curl->headers['Some-Custom-Header'] = 'Some Custom Value';
 ```
+
 <div dir="rtl">
 ### تنظیم گزینه های سفارشی برای ارسال درخواست CURL
 
 به طور پیش فرض، آبجکت `Curl` از تغییر مسیر پیروی می کند. شما می توانید به صورت زیر غیر فعال کنید:
 </div>
+
 ```
 	$curl->follow_redirects = false;
 ```
+
 <div dir="rtl">
 شما می توانید بسیاری از گزینه های مختلف برای ارسال درخواست های CURL را تنظیم کنید یا آنها را لغو کنید (برای مشاهده لیست آنها به [curl_setopt documentation] (http://php.net/curl_setopt) مراجعه کنید)
 
 	# همه ی موارد زیر میتوانند مورد استفاده قرار بگیرند.
 </div>
+
 ```
 	$curl->options['AUTOREFERER'] = true;
 	$curl->options['autoreferer'] = true;
 	$curl->options['CURLOPT_AUTOREFERER'] = true;
 	$curl->options['curlopt_autoreferer'] = true;
 ```
+
 <div dir="rtl">
 ## تماس
 
