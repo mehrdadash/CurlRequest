@@ -1,29 +1,29 @@
 # CurlRequest
 <div dir="rtl">
 کلاس ساده برای صدا زدن api در زبان php ( لطفا برای اطلاعات بیشتر به http://php.net/curl مراجعه کنید)
-</div>
+
 
 ## نصب
 
-Click the `download` link above or `git clone git://github.com/shuber/curl.git`
+بر روی `download` کلیک کنید یا با نوشتن این دستور در ترمینال `git clone git://github.com/shuber/curl.git` کد را به پروژه خودتان اضافه کنید.
 
 
-## Usage
+## استفاده
 
-### Initialization
+### مداردهی اولیه
 
-Simply require and initialize the `Curl` class like so:
+به سادگی کلاس  `Curl` را به کدتان اضافه کنید و آبجکت جدیدی از آن بسازید. مانند نمونه:
 
 	require_once 'curl.php';
 	$curl = new Curl;
 
 
-### Performing a Request
+### انجام یک درخواست
 
-The Curl object supports 5 types of requests: HEAD, GET, POST, PUT, and DELETE.
-You must specify a url to request and optionally specify an associative array or string of variables to send along with it.
+آبجکت Curl از 5 نوع درخواست پشتیبانی می کند: HEAD، GET، POST، PUT و DELETE.
+شما باید یک آدرس url برای درخواست و به صورت اختیاری یک آرایه یا رشته ای از متغیرها برای ارسال همراه با آن مشخص کنید.
 
-	# The Curl object will append the array of $vars to the $url as a query string
+	# آبجکت Curl، آرایه ای از vars را به url به عنوان یک رشته اضافه می کند
 
 	$response = $curl->head($url, $vars = array());   # initilize head request
 	$response = $curl->get($url, $vars = array());    # initilize get request
@@ -31,17 +31,17 @@ You must specify a url to request and optionally specify an associative array or
 	$response = $curl->put($url, $vars = array());    # initilize put request
 	$response = $curl->delete($url, $vars = array()); # initilize delete request
 	
-To use a custom request methods, you can call the `request` method:
+برای ارسال درخواست سفارشی میتوانید از متد `request` استفاده کنید:
 
 	$response = $curl->request('YOUR_CUSTOM_REQUEST_TYPE', $url, $vars = array());
 
-All of the built in request methods like `put` and `get` simply wrap the `request` method. For example, the `post` method is implemented like:
+تمام متدهای درخواست ساخته شده مانند `put` و` get` به سادگی متد `request` را پوشش میدهند. به عنوان مثال، روش `post` به صورت زیر اجرا می شود:
 
 	function post($url, $vars = array()) {
 	    return $this->request('POST', $url, $vars);
 	}
 
-Examples:
+مثال:
 
 	$response = $curl->get('domain.com?q=somedata');
 
@@ -50,21 +50,22 @@ Examples:
 	
 	$response = $curl->post('test.com/posts', array('title' => 'sometitle', 'body' => 'something as body'));
 
-All requests return a CurlResponse object (see below) or false if an error occurred. You can access the error string with the `$curl->error()` method.
+تمام درخواستها آبجکت CurlResponse را به عنوان خروجی ذخیره میکنند:
 
 
-### The CurlResponse Object
+###  پاسخ درخواست CurlResponse 
 
-A normal CURL request will return the headers and the body in one response string. This class parses the two and places them into separate properties.
 
-For example
+یک درخواست عادی CURL هدر و بادی را در یک رشته پاسخ باز می گرداند. این کلاس این دو را تجزیه می کند و آنها را به خواص جداگانه تبدیل می کند.
+
+برای مثال:
 
 	$response = $curl->get('google.com');
-	echo $response;  or   # both will work
+	echo $response;  or   # هر دو مورد جواب میدهند
 	echo $response->body; # A string containing everything in the response will echo, except for the headers
 	print_r($response->headers); # An associative array containing the response headers
 
-	example:	
+	مثال:	
 
 	Array
 	(
@@ -78,47 +79,47 @@ For example
 	    [Connection] => close
 	)
 
-### Cookie Sessions
+### کوکی Sessions
 
-By default, cookies will be stored in a file called `lib/curl_cookie.txt`. You can change this file's name by setting it like this
+به صورت پیش فرض، کوکی ها در یک فایل به نام `lib / curl_cookie.txt` ذخیره می شوند. شما می توانید نام این فایل را از طریق تنظیم این متغیر تغییر دهید:
 
 	$curl->cookie_file = 'some_other_filename';
 
-This allows you to maintain a session across requests
+این به شما اجازه می دهد یک session را در طول درخواست ها حفظ کنید.
+
+### تنظیمات اولیه پیکربندی
 
 
-### Basic Configuration Options
-
-You can easily set the referer or user-agent
+شما می توانید به راحتی referer یا user-agent را تنظیم کنید:
 
 	$curl->referer = 'https://google.com';
 	$curl->user_agent = 'some user agent string';
 
-You can even set these headers manually :
 
+### تنظیم  هدر های سفارشی
 
-### Setting Custom Headers
-
-You can set custom headers to send with the request
+شما حتی می توانید این هدر ها را به صورت دستی تنظیم کنید:
 
 	$curl->headers['Host'] = 12.345.678.90;
 	$curl->headers['Some-Custom-Header'] = 'Some Custom Value';
 
 
-### Setting Custom CURL request options
+### تنظیم گزینه های سفارشی برای ارسال درخواست CURL
 
-By default, the `Curl` object will follow redirects. You can disable this by setting:
+به طور پیش فرض، آبجکت `Curl` از تغییر مسیر پیروی می کند. شما می توانید به صورت زیر غیر فعال کنید:
 
 	$curl->follow_redirects = false;
 
-You can set or override many different options for CURL requests (see the [curl_setopt documentation](http://php.net/curl_setopt) for a list of them)
+شما می توانید بسیاری از گزینه های مختلف برای ارسال درخواست های CURL را تنظیم کنید یا آنها را لغو کنید (برای مشاهده لیست آنها به [curl_setopt documentation] (http://php.net/curl_setopt) مراجعه کنید)
 
-	# any of these will work
+	# همه ی موارد زیر میتوانند مورد استفاده قرار بگیرند.
 	$curl->options['AUTOREFERER'] = true;
 	$curl->options['autoreferer'] = true;
 	$curl->options['CURLOPT_AUTOREFERER'] = true;
 	$curl->options['curlopt_autoreferer'] = true;
 
-## Contact
+## تماس
 
-keep in touch with me: [mehrdadashtari.ma@gmail.com](mailto:mehrdadashtari.ma@gmail.com)
+شما میتوانید از طریق ایمیل روبرو با من در تماس باشید: [mehrdadashtari.ma@gmail.com](mailto:mehrdadashtari.ma@gmail.com)
+
+</div>
